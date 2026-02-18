@@ -1,5 +1,8 @@
-# Production profile – overridden by application-production.properties where defined
-# Kept for any YAML-only config; DB/server/CORS/JWT are in application-production.properties
+# Production profile – bind to 0.0.0.0 so Render/proxy can reach the app
+server:
+  address: 0.0.0.0
+  port: ${PORT:8080}
+
 spring:
   jpa:
     properties:
