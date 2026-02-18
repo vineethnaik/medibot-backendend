@@ -13,7 +13,7 @@ public class AuditLog {
     private String action;
     @Column(name = "user_id", nullable = false, length = 36)
     private String userId;
-    @Column(columnDefinition = "JSON")
+    @Column(columnDefinition = "TEXT")
     private String details;
     @Column(name = "hospital_id", length = 36)
     private String hospitalId;
