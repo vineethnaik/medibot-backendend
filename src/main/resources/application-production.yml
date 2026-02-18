@@ -1,0 +1,8 @@
+# Production profile – overridden by application-production.properties where defined
+# Kept for any YAML-only config; DB/server/CORS/JWT are in application-production.properties
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
