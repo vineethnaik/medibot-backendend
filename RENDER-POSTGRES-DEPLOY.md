@@ -45,12 +45,14 @@ In the Web Service → **Environment**, add:
 | Key | Value |
 |-----|--------|
 | `SPRING_PROFILES_ACTIVE` | `production` |
-| `SPRING_DATASOURCE_URL` | `jdbc:postgresql://HOST:5432/DATABASE` (from Step 1; use **Internal** host) |
-| `SPRING_DATASOURCE_USERNAME` | Postgres user from Step 1 |
-| `SPRING_DATASOURCE_PASSWORD` | Postgres password from Step 1 |
+| `SPRING_DATASOURCE_URL` | `jdbc:postgresql://dpg-d6b8maogjchc73afijl0-a:5432/medibot_zi55` |
+| `SPRING_DATASOURCE_USERNAME` | `medibot_zi55_user` |
+| `SPRING_DATASOURCE_PASSWORD` | *(copy from Render Postgres Info/Connection tab)* |
 | `JWT_SECRET` | Long random string (e.g. 32+ chars base64) |
-| `CORS_ALLOWED_ORIGINS` | Your Vercel frontend URL, no trailing slash (e.g. `https://medibots-health-frontend.vercel.app`) |
+| `CORS_ALLOWED_ORIGINS` | `https://medibots-health-frontend.vercel.app` |
 | `SERVER_ADDRESS` | `0.0.0.0` |
+
+**Your Render Postgres:** Host `dpg-d6b8maogjchc73afijl0-a`, Port `5432`, Database `medibot_zi55`. Use `jdbc:postgresql://` prefix (not `postgresql://`).
 
 **Linking Postgres to the Web Service (optional):**  
 If you use **Render’s “Connect”** from the Postgres service to the Web Service, Render can inject `DATABASE_URL`. That is usually in the form `postgresql://user:pass@host:port/db`. Set:
