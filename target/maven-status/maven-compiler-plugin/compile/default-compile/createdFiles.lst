@@ -1,6 +1,8 @@
 com\medibots\controller\AdminController.class
 com\medibots\controller\AuthController.class
 com\medibots\controller\DashboardController.class
+com\medibots\controller\OnboardingValidationController.class
+com\medibots\controller\PatientDocumentsController.class
 com\medibots\repository\PatientRepository.class
 com\medibots\repository\AiLogRepository.class
 com\medibots\entity\Profile.class
@@ -39,6 +41,8 @@ com\medibots\controller\ProfilesController.class
 com\medibots\entity\Hospital.class
 com\medibots\entity\UserRole.class
 com\medibots\repository\AppointmentRepository.class
+com\medibots\service\OnboardingValidationService.class
+com\medibots\service\RazorpayService.class
 com\medibots\repository\InvoiceRepository.class
 com\medibots\dto\AuthRequest.class
 com\medibots\entity\AiLog.class
@@ -46,4 +50,6 @@ com\medibots\config\DataSeeder.class
 com\medibots\entity\InvoiceItem.class
 com\medibots\controller\ClaimsController.class
 com\medibots\controller\PatientsController.class
+com\medibots\controller\RazorpayController.class
 com\medibots\repository\PaymentRepository.class
+com\medibots\service\ChatService.class

@@ -50,6 +50,6 @@ API base: **http://localhost:8081**.
 - **Admin:** `POST /api/admin/create-user`, `PATCH /api/admin/users/{userId}`
 - **Analytics:** `GET /api/analytics`
 - **AI logs / Audit logs:** `GET /api/ai-logs`, `GET /api/audit-logs`
-- **Chat:** `POST /api/chat` (stub)
+- **Chat:** `POST /api/chat` — Set `GROQ_API_KEY` (free at groq.com) or `HF_TOKEN` for live AI support
 
 All endpoints except `/api/auth/**` require `Authorization: Bearer <token>`.

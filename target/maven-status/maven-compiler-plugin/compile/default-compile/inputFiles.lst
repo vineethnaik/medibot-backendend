@@ -3,11 +3,15 @@ D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\ja
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\controller\PatientsController.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\entity\Claim.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\controller\PaymentsController.java
+D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\service\OnboardingValidationService.java
+D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\controller\RazorpayController.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\controller\AuthController.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\repository\PatientRepository.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\repository\AuditLogRepository.java
+D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\service\ChatService.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\config\JwtProperties.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\dto\UserDto.java
+D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\service\RazorpayService.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\repository\InvoiceItemRepository.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\repository\ClaimRepository.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\controller\ChatController.java
@@ -34,6 +38,7 @@ D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\ja
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\dto\AuthResponse.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\entity\UserRole.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\repository\AiLogRepository.java
+D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\controller\OnboardingValidationController.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\entity\Invoice.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\repository\UserRoleRepository.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\repository\InvoiceRepository.java
@@ -46,4 +51,5 @@ D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\ja
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\dto\SignupRequest.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\controller\HospitalsController.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\MedibotsHealthApplication.java
+D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\controller\PatientDocumentsController.java
 D:\medibotshealth-skill-palaver\medibotshealth-skill-palaver\backend\src\main\java\com\medibots\entity\AiLog.java

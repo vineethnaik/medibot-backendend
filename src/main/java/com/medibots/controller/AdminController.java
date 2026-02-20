@@ -43,6 +43,7 @@ public class AdminController {
         profileRepo.findByUserId(userId).ifPresent(p -> {
             if (body.get("name") != null) p.setName((String) body.get("name"));
             if (body.get("specialization") != null) p.setSpecialization((String) body.get("specialization"));
+            if (body.get("hospital_id") != null) p.setHospitalId((String) body.get("hospital_id"));
             profileRepo.save(p);
         });
         if (body.get("role") != null) {

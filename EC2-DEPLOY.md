@@ -8,7 +8,7 @@ Step-by-step guide to run the Medibots backend on an EC2 instance.
 
 - AWS account
 - Java 21 (or 17+)
-- PostgreSQL (RDS or external)
+- Amazon Aurora (MySQL-compatible) or MySQL
 - Maven (for local build)
 
 ---
@@ -27,21 +27,21 @@ Step-by-step guide to run the Medibots backend on an EC2 instance.
 
 ---
 
-## 2. PostgreSQL (choose one)
+## 2. Amazon Aurora (MySQL-compatible)
 
-### Option A – Amazon RDS
+### Aurora cluster setup
 
-1. RDS → Create database → PostgreSQL
-2. VPC: same as EC2 (or ensure EC2 can reach RDS)
-3. Create; note **endpoint**, **port** (5432), **database**, **username**, **password**
-4. In RDS security group, allow inbound 5432 from EC2 security group
+1. **RDS** → Create database → **Amazon Aurora**
+2. **Engine:** MySQL 8.0 (or latest)
+3. **Cluster endpoint:** note the writer endpoint (e.g. `your-cluster.cluster-xxx.us-east-1.rds.amazonaws.com`)
+4. **Port:** 3306
+5. **VPC:** Same as EC2 (or ensure EC2 can reach the cluster)
+6. **Security group:** Allow inbound 3306 from EC2 security group
+7. Create; note **endpoint**, **port** (3306), **database**, **username**, **password**
 
-### Option B – PostgreSQL on EC2
-
-```bash
-sudo apt update && sudo apt install -y postgresql postgresql-contrib
-sudo -u postgres psql -c "CREATE USER medibot WITH PASSWORD 'yourpass';"
-sudo -u postgres psql -c "CREATE DATABASE medibot OWNER medibot;"
+JDBC URL format:
+```
+jdbc:mysql://YOUR_CLUSTER_ENDPOINT:3306/medibot?useSSL=true&serverTimezone=UTC
 ```
 
 ---
@@ -99,7 +99,7 @@ Add (replace with your values):
 
 ```
 SPRING_PROFILES_ACTIVE=production
-SPRING_DATASOURCE_URL=jdbc:postgresql://YOUR_DB_HOST:5432/medibot
+SPRING_DATASOURCE_URL=jdbc:mysql://YOUR_AURORA_CLUSTER_ENDPOINT:3306/medibot?useSSL=true&serverTimezone=UTC
 SPRING_DATASOURCE_USERNAME=your_db_user
 SPRING_DATASOURCE_PASSWORD=your_db_password
 JWT_SECRET=your-256-bit-secret
@@ -177,6 +177,7 @@ sudo journalctl -u medibots-backend -f
 
 | Item | Value |
 |------|--------|
+| Database | Aurora MySQL (port 3306) |
 | App dir | `/opt/medibots-backend` |
 | JAR | `medibots-health-backend-1.0.0.jar` |
 | Port | 8080 |

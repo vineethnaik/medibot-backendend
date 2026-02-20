@@ -9,4 +9,5 @@ public interface PatientRepository extends JpaRepository<Patient, String> {
     Optional<Patient> findByUserId(String userId);
     List<Patient> findAllByOrderByCreatedAtDesc();
     List<Patient> findByHospitalIdOrderByCreatedAtDesc(String hospitalId);
+    List<Patient> findByHospitalIdAndOnboardingStatusOrderByCreatedAtDesc(String hospitalId, String onboardingStatus);
 }

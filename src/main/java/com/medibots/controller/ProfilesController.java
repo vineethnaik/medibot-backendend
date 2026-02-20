@@ -51,17 +51,25 @@ public class ProfilesController {
         Map<String, String> roleByUser = new HashMap<>();
         userRoleRepo.findAll().forEach(ur -> roleByUser.put(ur.getUserId(), ur.getRole()));
         List<Map<String, Object>> out = new ArrayList<>();
+        List<Map<String, Object>> allDoctors = new ArrayList<>();
         for (Profile p : all) {
             if (!"DOCTOR".equals(roleByUser.get(p.getUserId()))) continue;
-            if (hospitalId != null && !hospitalId.equals(p.getHospitalId())) continue;
             Map<String, Object> m = new HashMap<>();
             m.put("user_id", p.getUserId());
             m.put("name", p.getName());
             m.put("email", p.getEmail());
             m.put("specialization", p.getSpecialization());
             m.put("hospital_id", p.getHospitalId());
+            allDoctors.add(m);
+            if (hospitalId != null && !hospitalId.isBlank()) {
+                String docHosp = p.getHospitalId();
+                if (docHosp != null && !docHosp.isBlank() && !hospitalId.trim().equals(docHosp.trim()))
+                    continue;
+            }
             out.add(m);
         }
+        if (hospitalId != null && !hospitalId.isBlank() && out.isEmpty() && !allDoctors.isEmpty())
+            return ResponseEntity.ok(allDoctors);
         return ResponseEntity.ok(out);
     }
 }

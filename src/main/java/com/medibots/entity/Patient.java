@@ -20,6 +20,14 @@ public class Patient {
     private String policyNumber;
     @Column(name = "hospital_id", length = 36)
     private String hospitalId;
+    @Column(name = "photo_id_path", length = 512)
+    private String photoIdPath;
+    @Column(name = "insurance_card_path", length = 512)
+    private String insuranceCardPath;
+    @Column(name = "onboarding_status", length = 32)
+    private String onboardingStatus = "PENDING_APPROVAL";
+    @Column(name = "validation_report_json", columnDefinition = "TEXT")
+    private String validationReportJson;
     private Instant createdAt;
     private Instant updatedAt;
 
@@ -51,6 +59,14 @@ public class Patient {
     public void setPolicyNumber(String policyNumber) { this.policyNumber = policyNumber; }
     public String getHospitalId() { return hospitalId; }
     public void setHospitalId(String hospitalId) { this.hospitalId = hospitalId; }
+    public String getPhotoIdPath() { return photoIdPath; }
+    public void setPhotoIdPath(String photoIdPath) { this.photoIdPath = photoIdPath; }
+    public String getInsuranceCardPath() { return insuranceCardPath; }
+    public void setInsuranceCardPath(String insuranceCardPath) { this.insuranceCardPath = insuranceCardPath; }
+    public String getOnboardingStatus() { return onboardingStatus; }
+    public void setOnboardingStatus(String onboardingStatus) { this.onboardingStatus = onboardingStatus; }
+    public String getValidationReportJson() { return validationReportJson; }
+    public void setValidationReportJson(String validationReportJson) { this.validationReportJson = validationReportJson; }
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }
