@@ -34,6 +34,7 @@ public class AdminController {
         if (body.get("hospital_id") != null) req.setHospitalId((String) body.get("hospital_id"));
         if (body.get("role") != null) req.setRole((String) body.get("role"));
         if (body.get("specialization") != null) req.setSpecialization((String) body.get("specialization"));
+        if (body.get("specialization_tags") != null) req.setSpecializationTags((String) body.get("specialization_tags"));
         AuthResponse res = authService.signup(req);
         return ResponseEntity.ok(res);
     }
@@ -43,6 +44,7 @@ public class AdminController {
         profileRepo.findByUserId(userId).ifPresent(p -> {
             if (body.get("name") != null) p.setName((String) body.get("name"));
             if (body.get("specialization") != null) p.setSpecialization((String) body.get("specialization"));
+            if (body.get("specialization_tags") != null) p.setSpecializationTags((String) body.get("specialization_tags"));
             if (body.get("hospital_id") != null) p.setHospitalId((String) body.get("hospital_id"));
             profileRepo.save(p);
         });

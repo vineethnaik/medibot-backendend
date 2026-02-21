@@ -39,6 +39,8 @@ public class ProfilesController {
             m.put("email", p.getEmail());
             m.put("created_at", p.getCreatedAt());
             m.put("hospital_id", p.getHospitalId());
+            m.put("specialization", p.getSpecialization());
+            m.put("specialization_tags", p.getSpecializationTags());
             m.put("role", roleByUser.getOrDefault(p.getUserId(), "PATIENT"));
             out.add(m);
         }

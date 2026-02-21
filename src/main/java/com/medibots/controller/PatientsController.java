@@ -2,9 +2,13 @@ package com.medibots.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.medibots.entity.Invoice;
 import com.medibots.entity.Patient;
+import com.medibots.entity.Payment;
 import com.medibots.entity.Profile;
+import com.medibots.repository.InvoiceRepository;
 import com.medibots.repository.PatientRepository;
+import com.medibots.repository.PaymentRepository;
 import com.medibots.repository.ProfileRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -20,11 +24,16 @@ import java.util.Map;
 public class PatientsController {
     private final PatientRepository patientRepo;
     private final ProfileRepository profileRepo;
+    private final InvoiceRepository invoiceRepo;
+    private final PaymentRepository paymentRepo;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public PatientsController(PatientRepository patientRepo, ProfileRepository profileRepo) {
+    public PatientsController(PatientRepository patientRepo, ProfileRepository profileRepo,
+                              InvoiceRepository invoiceRepo, PaymentRepository paymentRepo) {
         this.patientRepo = patientRepo;
         this.profileRepo = profileRepo;
+        this.invoiceRepo = invoiceRepo;
+        this.paymentRepo = paymentRepo;
     }
 
     @GetMapping
@@ -50,6 +59,25 @@ public class PatientsController {
             return ResponseEntity.ok(List.of());
         }
         return ResponseEntity.ok(patientRepo.findByHospitalIdAndOnboardingStatusOrderByCreatedAtDesc(hospitalId, "PENDING_APPROVAL"));
+    }
+
+    /** Get patient's count of previous late payments (payment_date > invoice due_date). */
+    @GetMapping("/{id}/late-payment-count")
+    public ResponseEntity<Map<String, Object>> latePaymentCount(@PathVariable String id, Authentication auth) {
+        if (auth == null) return ResponseEntity.status(401).build();
+        if (!patientRepo.existsById(id)) return ResponseEntity.notFound().build();
+        int count = 0;
+        for (Invoice inv : invoiceRepo.findByPatientIdOrderByCreatedAtDesc(id)) {
+            if (!"PAID".equals(inv.getPaymentStatus())) continue;
+            for (Payment pmt : paymentRepo.findByInvoiceId(inv.getId())) {
+                if (pmt.getPaymentDate() != null && inv.getDueDate() != null
+                        && pmt.getPaymentDate().isAfter(inv.getDueDate())) {
+                    count++;
+                    break;
+                }
+            }
+        }
+        return ResponseEntity.ok(Map.of("patient_id", id, "previous_late_payments", count));
     }
 
     /** Get patient detail for admin review (documents + validation report). */

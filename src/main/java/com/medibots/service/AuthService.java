@@ -56,6 +56,7 @@ public class AuthService {
         if (req.getHospitalId() != null && !req.getHospitalId().isEmpty())
             profile.setHospitalId(req.getHospitalId());
         if (req.getSpecialization() != null) profile.setSpecialization(req.getSpecialization());
+        if (req.getSpecializationTags() != null) profile.setSpecializationTags(req.getSpecializationTags());
         profile = profileRepo.save(profile);
 
         String role = (req.getRole() != null && !req.getRole().isEmpty()) ? req.getRole() : "PATIENT";

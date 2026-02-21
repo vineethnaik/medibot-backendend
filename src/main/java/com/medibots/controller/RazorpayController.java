@@ -5,6 +5,7 @@ import com.medibots.entity.Invoice;
 import com.medibots.entity.InvoiceItem;
 import com.medibots.entity.Payment;
 import com.medibots.repository.AppointmentRepository;
+import com.medibots.repository.DoctorRecommendationRepository;
 import com.medibots.repository.InvoiceItemRepository;
 import com.medibots.repository.InvoiceRepository;
 import com.medibots.repository.PaymentRepository;
@@ -17,8 +18,12 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.medibots.entity.Patient;
+import com.medibots.repository.PatientRepository;
 
 @RestController
 @RequestMapping("/api/razorpay")
@@ -29,17 +34,47 @@ public class RazorpayController {
     private final InvoiceItemRepository invoiceItemRepo;
     private final PaymentRepository paymentRepo;
     private final AppointmentRepository appointmentRepo;
+    private final DoctorRecommendationRepository recRepo;
+    private final PatientRepository patientRepo;
 
     public RazorpayController(RazorpayService razorpayService,
                               InvoiceRepository invoiceRepo,
                               InvoiceItemRepository invoiceItemRepo,
                               PaymentRepository paymentRepo,
-                              AppointmentRepository appointmentRepo) {
+                              AppointmentRepository appointmentRepo,
+                              DoctorRecommendationRepository recRepo,
+                              PatientRepository patientRepo) {
         this.razorpayService = razorpayService;
         this.invoiceRepo = invoiceRepo;
         this.invoiceItemRepo = invoiceItemRepo;
         this.paymentRepo = paymentRepo;
         this.appointmentRepo = appointmentRepo;
+        this.recRepo = recRepo;
+        this.patientRepo = patientRepo;
+    }
+
+    private void populateAppointmentFromPatientIfMissing(Appointment a) {
+        if (a.getPatientId() == null) return;
+        patientRepo.findById(a.getPatientId()).ifPresent(p -> {
+            if (a.getPatientAge() == null && p.getDob() != null)
+                a.setPatientAge(Period.between(p.getDob(), LocalDate.now()).getYears());
+            if (a.getPatientGender() == null && p.getGender() != null)
+                a.setPatientGender(p.getGender());
+        });
+        if (a.getPreviousLatePayments() == null && a.getPatientId() != null) {
+            int count = 0;
+            for (Invoice i : invoiceRepo.findByPatientIdOrderByCreatedAtDesc(a.getPatientId())) {
+                if (!"PAID".equals(i.getPaymentStatus())) continue;
+                for (var pmt : paymentRepo.findByInvoiceId(i.getId())) {
+                    if (pmt.getPaymentDate() != null && i.getDueDate() != null
+                            && pmt.getPaymentDate().isAfter(i.getDueDate())) {
+                        count++;
+                        break;
+                    }
+                }
+            }
+            a.setPreviousLatePayments(count);
+        }
     }
 
     @GetMapping("/config")
@@ -116,6 +151,14 @@ public class RazorpayController {
         p = paymentRepo.save(p);
         inv.setPaymentStatus("PAID");
         invoiceRepo.save(inv);
+        for (InvoiceItem item : invoiceItemRepo.findByInvoiceIdOrderByCreatedAtAsc(invoiceId)) {
+            if (item.getRecommendationId() != null) {
+                recRepo.findById(item.getRecommendationId()).ifPresent(r -> {
+                    r.setStatus("PAID");
+                    recRepo.save(r);
+                });
+            }
+        }
 
         Map<String, Object> out = new HashMap<>();
         out.put("success", true);
@@ -169,6 +212,8 @@ public class RazorpayController {
         appt.setHospitalId(hospitalId);
         appt.setConsultationFee(amount);
         appt.setFeePaid(true);
+        applyAppointmentExtras(appt, body);
+        populateAppointmentFromPatientIfMissing(appt);
         appt = appointmentRepo.save(appt);
 
         // Create invoice
@@ -201,5 +246,26 @@ public class RazorpayController {
         out.put("appointment", Map.of("id", appt.getId(), "doctor_id", appt.getDoctorId(), "appointment_date", appt.getAppointmentDate(), "status", appt.getStatus()));
         out.put("invoice", Map.of("id", inv.getId(), "invoice_number", inv.getInvoiceNumber(), "total_amount", inv.getTotalAmount()));
         return ResponseEntity.ok(out);
+    }
+
+    private void applyAppointmentExtras(Appointment a, Map<String, Object> body) {
+        if (body.get("booking_lead_time_days") != null) a.setBookingLeadTimeDays(intFrom(body.get("booking_lead_time_days")));
+        if (body.get("previous_no_show_count") != null) a.setPreviousNoShowCount(intFrom(body.get("previous_no_show_count")));
+        if (body.get("sms_reminder_sent") != null) a.setSmsReminderSent(Boolean.TRUE.equals(body.get("sms_reminder_sent")));
+        if (body.get("reminder_count") != null) a.setReminderCount(intFrom(body.get("reminder_count")));
+        if (body.get("appointment_type") != null) a.setAppointmentType((String) body.get("appointment_type"));
+        if (body.get("distance_from_hospital_km") != null) a.setDistanceFromHospitalKm(new BigDecimal(body.get("distance_from_hospital_km").toString()));
+        if (body.get("time_slot") != null) a.setTimeSlot((String) body.get("time_slot"));
+        if (body.get("weekday") != null) a.setWeekday((String) body.get("weekday"));
+        if (body.get("no_show_flag") != null) a.setNoShowFlag(Boolean.TRUE.equals(body.get("no_show_flag")));
+        if (body.get("patient_age") != null) a.setPatientAge(intFrom(body.get("patient_age")));
+        if (body.get("patient_gender") != null) a.setPatientGender((String) body.get("patient_gender"));
+        if (body.get("previous_late_payments") != null) a.setPreviousLatePayments(intFrom(body.get("previous_late_payments")));
+    }
+
+    private static Integer intFrom(Object o) {
+        if (o == null) return null;
+        if (o instanceof Number) return ((Number) o).intValue();
+        return Integer.parseInt(o.toString());
     }
 }

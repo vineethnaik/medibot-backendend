@@ -25,6 +25,26 @@ public class Invoice {
     private String paymentStatus = "UNPAID";
     @Column(name = "hospital_id", length = 36)
     private String hospitalId;
+    @Column(name = "days_to_payment")
+    private Integer daysToPayment;
+    @Column(name = "payment_delay_flag")
+    private Boolean paymentDelayFlag;
+    @Column(name = "payer_type", length = 50)
+    private String payerType;
+    @Column(name = "invoice_category", length = 50)
+    private String invoiceCategory;
+    @Column(name = "reminder_count")
+    private Integer reminderCount;
+    @Column(name = "installment_plan")
+    private Boolean installmentPlan;
+    @Column(name = "historical_avg_payment_delay")
+    private Integer historicalAvgPaymentDelay;
+    @Column(name = "patient_age")
+    private Integer patientAge;
+    @Column(name = "patient_gender", length = 20)
+    private String patientGender;
+    @Column(name = "previous_late_payments")
+    private Integer previousLatePayments;
     private Instant createdAt;
     private Instant updatedAt;
 
@@ -58,6 +78,26 @@ public class Invoice {
     public void setPaymentStatus(String paymentStatus) { this.paymentStatus = paymentStatus; }
     public String getHospitalId() { return hospitalId; }
     public void setHospitalId(String hospitalId) { this.hospitalId = hospitalId; }
+    public Integer getDaysToPayment() { return daysToPayment; }
+    public void setDaysToPayment(Integer daysToPayment) { this.daysToPayment = daysToPayment; }
+    public Boolean getPaymentDelayFlag() { return paymentDelayFlag; }
+    public void setPaymentDelayFlag(Boolean paymentDelayFlag) { this.paymentDelayFlag = paymentDelayFlag; }
+    public String getPayerType() { return payerType; }
+    public void setPayerType(String payerType) { this.payerType = payerType; }
+    public String getInvoiceCategory() { return invoiceCategory; }
+    public void setInvoiceCategory(String invoiceCategory) { this.invoiceCategory = invoiceCategory; }
+    public Integer getReminderCount() { return reminderCount; }
+    public void setReminderCount(Integer reminderCount) { this.reminderCount = reminderCount; }
+    public Boolean getInstallmentPlan() { return installmentPlan; }
+    public void setInstallmentPlan(Boolean installmentPlan) { this.installmentPlan = installmentPlan; }
+    public Integer getHistoricalAvgPaymentDelay() { return historicalAvgPaymentDelay; }
+    public void setHistoricalAvgPaymentDelay(Integer historicalAvgPaymentDelay) { this.historicalAvgPaymentDelay = historicalAvgPaymentDelay; }
+    public Integer getPatientAge() { return patientAge; }
+    public void setPatientAge(Integer patientAge) { this.patientAge = patientAge; }
+    public String getPatientGender() { return patientGender; }
+    public void setPatientGender(String patientGender) { this.patientGender = patientGender; }
+    public Integer getPreviousLatePayments() { return previousLatePayments; }
+    public void setPreviousLatePayments(Integer previousLatePayments) { this.previousLatePayments = previousLatePayments; }
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }

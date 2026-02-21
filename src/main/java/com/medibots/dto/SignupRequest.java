@@ -7,6 +7,10 @@ public class SignupRequest {
     private String hospitalId;
     private String role;
     private String specialization;
+    private String specializationTags;
+
+    public String getSpecializationTags() { return specializationTags; }
+    public void setSpecializationTags(String specializationTags) { this.specializationTags = specializationTags; }
 
     public String getHospitalId() { return hospitalId; }
     public void setHospitalId(String hospitalId) { this.hospitalId = hospitalId; }

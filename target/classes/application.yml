@@ -32,6 +32,8 @@ management:
       show-details: when-authorized
 
 app:
+  ml:
+    service-url: ${ML_SERVICE_URL:http://127.0.0.1:8000}
   razorpay:
     key-id: ${RAZORPAY_KEY_ID:}
     key-secret: ${RAZORPAY_KEY_SECRET:}

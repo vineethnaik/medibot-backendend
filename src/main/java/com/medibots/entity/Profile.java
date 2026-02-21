@@ -15,6 +15,8 @@ public class Profile {
     private String email;
     private String avatarUrl;
     private String specialization;
+    @Column(name = "specialization_tags", length = 512)
+    private String specializationTags; // Comma-separated tags: Cardiology, General Medicine
     private String status = "ACTIVE";
     @Column(name = "hospital_id", length = 36)
     private String hospitalId;
@@ -45,6 +47,8 @@ public class Profile {
     public void setAvatarUrl(String avatarUrl) { this.avatarUrl = avatarUrl; }
     public String getSpecialization() { return specialization; }
     public void setSpecialization(String specialization) { this.specialization = specialization; }
+    public String getSpecializationTags() { return specializationTags; }
+    public void setSpecializationTags(String specializationTags) { this.specializationTags = specializationTags; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
     public String getHospitalId() { return hospitalId; }

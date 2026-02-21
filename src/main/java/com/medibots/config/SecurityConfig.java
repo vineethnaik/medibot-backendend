@@ -45,6 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/patients/documents/upload").permitAll()
                         .requestMatchers("/api/razorpay/**").permitAll()
+                        .requestMatchers("/api/landing/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface PaymentRepository extends JpaRepository<Payment, String> {
     List<Payment> findAllByOrderByCreatedAtDesc();
+    List<Payment> findByInvoiceId(String invoiceId);
 }

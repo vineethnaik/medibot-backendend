@@ -18,6 +18,10 @@ public class InvoiceItem {
     private BigDecimal amount = BigDecimal.ZERO;
     @Column(name = "item_type", nullable = false, length = 64)
     private String itemType = "CONSULTATION";
+    @Column(name = "recommendation_id", length = 36)
+    private String recommendationId;
+    @Column(name = "service_catalog_id", length = 36)
+    private String serviceCatalogId;
     private Instant createdAt;
 
     @PrePersist
@@ -36,6 +40,10 @@ public class InvoiceItem {
     public void setAmount(BigDecimal amount) { this.amount = amount; }
     public String getItemType() { return itemType; }
     public void setItemType(String itemType) { this.itemType = itemType; }
+    public String getRecommendationId() { return recommendationId; }
+    public void setRecommendationId(String recommendationId) { this.recommendationId = recommendationId; }
+    public String getServiceCatalogId() { return serviceCatalogId; }
+    public void setServiceCatalogId(String serviceCatalogId) { this.serviceCatalogId = serviceCatalogId; }
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
 }
